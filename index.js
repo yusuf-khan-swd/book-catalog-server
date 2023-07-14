@@ -23,20 +23,20 @@ const run = async () => {
 
     app.get("/books", async (req, res) => {
       const cursor = bookCollection.find({});
-      const product = await cursor.toArray();
+      const book = await cursor.toArray();
 
-      res.send({ status: true, data: product });
+      res.send({ status: true, data: book });
     });
 
-    app.post("/product", async (req, res) => {
-      const product = req.body;
+    app.post("/book", async (req, res) => {
+      const book = req.body;
 
-      const result = await bookCollection.insertOne(product);
+      const result = await bookCollection.insertOne(book);
 
       res.send(result);
     });
 
-    app.get("/product/:id", async (req, res) => {
+    app.get("/book/:id", async (req, res) => {
       const id = req.params.id;
 
       const result = await bookCollection.findOne({ _id: ObjectId(id) });
@@ -44,7 +44,7 @@ const run = async () => {
       res.send(result);
     });
 
-    app.delete("/product/:id", async (req, res) => {
+    app.delete("/book/:id", async (req, res) => {
       const id = req.params.id;
 
       const result = await bookCollection.deleteOne({ _id: ObjectId(id) });
@@ -53,22 +53,22 @@ const run = async () => {
     });
 
     app.post("/comment/:id", async (req, res) => {
-      const productId = req.params.id;
+      const bookId = req.params.id;
       const comment = req.body.comment;
 
-      console.log(productId);
+      console.log(bookId);
       console.log(comment);
 
       const result = await bookCollection.updateOne(
-        { _id: ObjectId(productId) },
+        { _id: ObjectId(bookId) },
         { $push: { comments: comment } }
       );
 
       console.log(result);
 
       if (result.modifiedCount !== 1) {
-        console.error("Product not found or comment not added");
-        res.json({ error: "Product not found or comment not added" });
+        console.error("book not found or comment not added");
+        res.json({ error: "book not found or comment not added" });
         return;
       }
 
@@ -77,17 +77,17 @@ const run = async () => {
     });
 
     app.get("/comment/:id", async (req, res) => {
-      const productId = req.params.id;
+      const bookId = req.params.id;
 
       const result = await bookCollection.findOne(
-        { _id: ObjectId(productId) },
+        { _id: ObjectId(bookId) },
         { projection: { _id: 0, comments: 1 } }
       );
 
       if (result) {
         res.json(result);
       } else {
-        res.status(404).json({ error: "Product not found" });
+        res.status(404).json({ error: "book not found" });
       }
     });
 
