@@ -20,6 +20,7 @@ const run = async () => {
   try {
     const db = client.db("book-catalog");
     const bookCollection = db.collection("books");
+    const userCollection = db.collection("users");
 
     app.get("/books", async (req, res) => {
       const cursor = bookCollection.find({});
