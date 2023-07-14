@@ -19,10 +19,10 @@ const client = new MongoClient(uri, {
 const run = async () => {
   try {
     const db = client.db("book-catalog");
-    const productCollection = db.collection("books");
+    const bookCollection = db.collection("books");
 
     app.get("/books", async (req, res) => {
-      const cursor = productCollection.find({});
+      const cursor = bookCollection.find({});
       const product = await cursor.toArray();
 
       res.send({ status: true, data: product });
@@ -31,7 +31,7 @@ const run = async () => {
     app.post("/product", async (req, res) => {
       const product = req.body;
 
-      const result = await productCollection.insertOne(product);
+      const result = await bookCollection.insertOne(product);
 
       res.send(result);
     });
@@ -39,7 +39,7 @@ const run = async () => {
     app.get("/product/:id", async (req, res) => {
       const id = req.params.id;
 
-      const result = await productCollection.findOne({ _id: ObjectId(id) });
+      const result = await bookCollection.findOne({ _id: ObjectId(id) });
       console.log(result);
       res.send(result);
     });
@@ -47,7 +47,7 @@ const run = async () => {
     app.delete("/product/:id", async (req, res) => {
       const id = req.params.id;
 
-      const result = await productCollection.deleteOne({ _id: ObjectId(id) });
+      const result = await bookCollection.deleteOne({ _id: ObjectId(id) });
       console.log(result);
       res.send(result);
     });
@@ -59,7 +59,7 @@ const run = async () => {
       console.log(productId);
       console.log(comment);
 
-      const result = await productCollection.updateOne(
+      const result = await bookCollection.updateOne(
         { _id: ObjectId(productId) },
         { $push: { comments: comment } }
       );
@@ -79,7 +79,7 @@ const run = async () => {
     app.get("/comment/:id", async (req, res) => {
       const productId = req.params.id;
 
-      const result = await productCollection.findOne(
+      const result = await bookCollection.findOne(
         { _id: ObjectId(productId) },
         { projection: { _id: 0, comments: 1 } }
       );
