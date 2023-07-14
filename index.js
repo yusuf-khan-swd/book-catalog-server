@@ -21,7 +21,7 @@ const run = async () => {
     const db = client.db("book-catalog");
     const productCollection = db.collection("books");
 
-    app.get("/products", async (req, res) => {
+    app.get("/books", async (req, res) => {
       const cursor = productCollection.find({});
       const product = await cursor.toArray();
 
