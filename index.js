@@ -53,7 +53,7 @@ const run = async () => {
       res.send(result);
     });
 
-    app.post("/comment/:id", async (req, res) => {
+    app.post("/review/:id", async (req, res) => {
       const bookId = req.params.id;
       const comment = req.body.comment;
 
@@ -77,7 +77,7 @@ const run = async () => {
       res.json({ message: "Comment added successfully" });
     });
 
-    app.get("/comment/:id", async (req, res) => {
+    app.get("/review/:id", async (req, res) => {
       const bookId = req.params.id;
 
       const result = await bookCollection.findOne(
