@@ -99,12 +99,12 @@ const run = async () => {
       res.send(result);
     });
 
-    app.get("/user/:email", async (req, res) => {
-      const email = req.params.email;
+    app.get("/user", async (req, res) => {
+      const { email, password } = req.body;
 
-      const result = await userCollection.findOne({ email });
+      const result = await userCollection.findOne({ email, password });
 
-      if (result?.email) {
+      if (result) {
         return res.send({ status: true, data: result });
       }
 
