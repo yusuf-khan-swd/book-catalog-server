@@ -92,7 +92,7 @@ const run = async () => {
       }
     });
 
-    app.post("/user", async (req, res) => {
+    app.post("/register-user", async (req, res) => {
       const user = req.body;
 
       const result = await userCollection.insertOne(user);
@@ -100,7 +100,7 @@ const run = async () => {
       res.send(result);
     });
 
-    app.get("/user", async (req, res) => {
+    app.post("/login-user", async (req, res) => {
       const { email, password } = req.body;
 
       const result = await userCollection.findOne({ email, password });
