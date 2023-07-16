@@ -29,6 +29,16 @@ const run = async () => {
       res.send({ status: true, data: book });
     });
 
+    app.get("/recent-books", async (req, res) => {
+      const cursor = bookCollection
+        .find({})
+        .sort({ publicationDate: -1 })
+        .limit(10);
+      const book = await cursor.toArray();
+
+      res.send({ status: true, data: book });
+    });
+
     app.post("/book", async (req, res) => {
       const book = req.body;
 
