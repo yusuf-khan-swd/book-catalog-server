@@ -22,18 +22,18 @@ const run = async () => {
     const bookCollection = db.collection("books");
     const userCollection = db.collection("users");
 
-    app.get("/books", async (req, res) => {
-      const cursor = bookCollection.find({});
-      const book = await cursor.toArray();
-
-      res.send({ status: true, data: book });
-    });
-
     app.get("/recent-books", async (req, res) => {
       const cursor = bookCollection
         .find({})
         .sort({ publicationDate: -1 })
         .limit(10);
+      const book = await cursor.toArray();
+
+      res.send({ status: true, data: book });
+    });
+
+    app.get("/books", async (req, res) => {
+      const cursor = bookCollection.find({});
       const book = await cursor.toArray();
 
       res.send({ status: true, data: book });
