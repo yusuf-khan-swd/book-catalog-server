@@ -90,13 +90,13 @@ const run = async () => {
       console.log(result);
 
       if (result.modifiedCount !== 1) {
-        console.error("book not found or comment not added");
-        res.json({ error: "book not found or comment not added" });
+        console.error("book not found or book not added");
+        res.json({ error: "book not found or book not added" });
         return;
       }
 
-      console.log("Comment added successfully");
-      res.json({ message: "Comment added successfully" });
+      console.log("book added successfully");
+      res.json({ message: "book added successfully" });
     });
 
     app.get("/review/:id", async (req, res) => {
