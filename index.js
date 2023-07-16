@@ -57,13 +57,11 @@ const run = async () => {
 
     app.patch("/book/:id", async (req, res) => {
       const id = req.params.id;
-      const updatedBook = {
-        $set: req.body,
-      };
+      const updatedBook = req.body;
 
       const result = await bookCollection.updateOne(
         { _id: ObjectId(id) },
-        updatedBook
+        { $set: updatedBook }
       );
 
       res.send(result);
