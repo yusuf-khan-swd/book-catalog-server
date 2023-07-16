@@ -55,6 +55,20 @@ const run = async () => {
       res.send(result);
     });
 
+    app.patch("/book/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedBook = {
+        $set: req.body,
+      };
+
+      const result = await bookCollection.updateOne(
+        { _id: ObjectId(id) },
+        updatedBook
+      );
+
+      res.send(result);
+    });
+
     app.delete("/book/:id", async (req, res) => {
       const id = req.params.id;
 
