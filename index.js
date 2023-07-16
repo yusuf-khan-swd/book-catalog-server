@@ -77,14 +77,14 @@ const run = async () => {
 
     app.post("/review/:id", async (req, res) => {
       const bookId = req.params.id;
-      const comment = req.body.comment;
+      const review = req.body.review;
 
       console.log(bookId);
-      console.log(comment);
+      console.log(review);
 
       const result = await bookCollection.updateOne(
         { _id: ObjectId(bookId) },
-        { $push: { comments: comment } }
+        { $push: { reviews: review } }
       );
 
       console.log(result);
@@ -104,7 +104,7 @@ const run = async () => {
 
       const result = await bookCollection.findOne(
         { _id: ObjectId(bookId) },
-        { projection: { _id: 0, comments: 1 } }
+        { projection: { _id: 0, reviews: 1 } }
       );
 
       if (result) {
