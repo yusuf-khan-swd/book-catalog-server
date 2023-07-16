@@ -59,7 +59,7 @@ const run = async () => {
       const id = req.params.id;
 
       const result = await bookCollection.deleteOne({ _id: ObjectId(id) });
-      console.log(result);
+
       res.send(result);
     });
 
