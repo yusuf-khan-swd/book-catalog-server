@@ -33,10 +33,61 @@ const run = async () => {
     });
 
     app.get("/books", async (req, res) => {
-      const cursor = bookCollection.find({});
-      const book = await cursor.toArray();
+      const queries = req.query;
 
-      res.send({ status: true, data: book });
+      const modifiedQueries = {};
+      Object.entries(queries).forEach((query) => {
+        modifiedQueries[query[0]] = query[1];
+      });
+
+      const { searchTerm, genre, publicationYear } = modifiedQueries;
+
+      let andCondition = [];
+
+      if (searchTerm) {
+        andCondition.push({
+          $or: [
+            {
+              title: {
+                $regex: searchTerm,
+                $options: "i",
+              },
+            },
+            {
+              author: {
+                $regex: searchTerm,
+                $options: "i",
+              },
+            },
+            {
+              genre: {
+                $regex: searchTerm,
+                $options: "i",
+              },
+            },
+          ],
+        });
+      }
+
+      if (genre) {
+        andCondition.push({
+          $and: [{ genre: { $regex: genre, $options: "i" } }],
+        });
+      }
+
+      if (publicationYear) {
+        andCondition.push({
+          $and: [
+            { publicationDate: { $regex: publicationYear, $options: "i" } },
+          ],
+        });
+      }
+
+      const query = andCondition.length > 0 ? { $and: andCondition } : {};
+
+      const result = await bookCollection.find(query).toArray();
+
+      res.send({ status: true, data: result });
     });
 
     app.post("/book", async (req, res) => {
