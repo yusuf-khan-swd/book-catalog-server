@@ -202,6 +202,18 @@ const run = async () => {
 
       res.send(result);
     });
+
+    app.patch("/wishlist/:id", async (req, res) => {
+      const id = req.params.id;
+      const data = req.body;
+
+      const result = await wishlistCollection.updateOne(
+        { _id: ObjectId(id) },
+        { $set: data }
+      );
+
+      res.send(result);
+    });
   } finally {
   }
 };
