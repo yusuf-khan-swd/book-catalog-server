@@ -186,6 +186,13 @@ const run = async () => {
       res.send({ status: false });
     });
 
+    app.get("/wishlist/:email", async (req, res) => {
+      const email = req.params.email;
+      const result = await wishlistCollection.find({ user: email }).toArray();
+
+      res.send(result);
+    });
+
     app.post("/wishlist", async (req, res) => {
       const wishlist = req.body;
 
