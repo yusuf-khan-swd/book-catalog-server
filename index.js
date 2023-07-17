@@ -21,6 +21,7 @@ const run = async () => {
     const db = client.db("book-catalog");
     const bookCollection = db.collection("books");
     const userCollection = db.collection("users");
+    const wishlistCollection = db.collection("wishlists");
 
     app.get("/recent-books", async (req, res) => {
       const cursor = bookCollection
@@ -183,6 +184,16 @@ const run = async () => {
       }
 
       res.send({ status: false });
+    });
+
+    app.post("/wishlist", async (req, res) => {
+      const wishlist = req.body;
+
+      const result = await wishlistCollection.insertOne(wishlist);
+
+      console.log(result);
+
+      res.send(result);
     });
   } finally {
   }
