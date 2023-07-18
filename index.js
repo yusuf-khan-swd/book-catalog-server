@@ -122,6 +122,8 @@ const run = async () => {
     app.delete("/book/:id", async (req, res) => {
       const id = req.params.id;
 
+      await wishlistCollection.deleteOne({ bookId: id });
+
       const result = await bookCollection.deleteOne({ _id: ObjectId(id) });
 
       res.send(result);
