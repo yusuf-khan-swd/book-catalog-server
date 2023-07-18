@@ -214,6 +214,14 @@ const run = async () => {
 
       res.send(result);
     });
+
+    app.delete("/wishlist/:id", async (req, res) => {
+      const id = req.params.id;
+
+      const result = await wishlistCollection.deleteOne({ _id: ObjectId(id) });
+
+      res.send(result);
+    });
   } finally {
   }
 };
